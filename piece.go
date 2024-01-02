@@ -21,40 +21,36 @@ const (
 	LightPawnImage
 )
 
+const (
+	E = iota
+	DR
+	DKn
+	DB
+	DQ
+	DK
+	DP
+	LR
+	LKn
+	LB
+	LQ
+	LK
+	LP
+)
+
 var (
 	PieceImageIndex = map[int]int{
-		DarkQueen:    DarkQueenImage,
-		DarkKing:     DarkKingImage,
-		DarkRookL:    DarkRookImage,
-		DarkRookR:    DarkRookImage,
-		DarkKnightL:  DarkKnightImage,
-		DarkKnightR:  DarkKnightImage,
-		DarkBishopL:  DarkBishopImage,
-		DarkBishopR:  DarkBishopImage,
-		DarkPawn1:    DarkPawnImage,
-		DarkPawn2:    DarkPawnImage,
-		DarkPawn3:    DarkPawnImage,
-		DarkPawn4:    DarkPawnImage,
-		DarkPawn5:    DarkPawnImage,
-		DarkPawn6:    DarkPawnImage,
-		DarkPawn7:    DarkPawnImage,
-		DarkPawn8:    DarkPawnImage,
-		LightQueen:   LightQueenImage,
-		LightKing:    LightKingImage,
-		LightRookL:   LightRookImage,
-		LightRookR:   LightRookImage,
-		LightKnightL: LightKnightImage,
-		LightKnightR: LightKnightImage,
-		LightBishopL: LightBishopImage,
-		LightBishopR: LightBishopImage,
-		LightPawn1:   LightPawnImage,
-		LightPawn2:   LightPawnImage,
-		LightPawn3:   LightPawnImage,
-		LightPawn4:   LightPawnImage,
-		LightPawn5:   LightPawnImage,
-		LightPawn6:   LightPawnImage,
-		LightPawn7:   LightPawnImage,
-		LightPawn8:   LightPawnImage,
+		DQ:  DarkQueenImage,
+		DK:  DarkKingImage,
+		DR:  DarkRookImage,
+		DKn: DarkKnightImage,
+		DB:  DarkBishopImage,
+		DP:  DarkPawnImage,
+		LQ:  LightQueenImage,
+		LK:  LightKingImage,
+		LR:  LightRookImage,
+		LKn: LightKnightImage,
+		LB:  LightBishopImage,
+		LP:  LightPawnImage,
 	}
 )
 
@@ -119,9 +115,9 @@ func (p *Piece) CanMoveToCell(cell *BoardCell) bool {
 	}
 
 	switch p.ID {
-	case DarkQueen, LightQueen:
+	case DQ, LQ:
 		return false
-	case DarkKing, LightKing:
+	case DK, LK:
 		return ((cell.PosX == p.PosX()+1) ||
 			(cell.PosX == p.PosX()-1) ||
 			(cell.PosY == p.PosY()+1) ||

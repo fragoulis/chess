@@ -10,42 +10,6 @@ import (
 	"github.com/hajimehoshi/ebiten/v2/inpututil"
 )
 
-const (
-	Empty = iota
-	DarkQueen
-	DarkKing
-	DarkRookL
-	DarkRookR
-	DarkKnightL
-	DarkKnightR
-	DarkBishopL
-	DarkBishopR
-	DarkPawn1
-	DarkPawn2
-	DarkPawn3
-	DarkPawn4
-	DarkPawn5
-	DarkPawn6
-	DarkPawn7
-	DarkPawn8
-	LightQueen
-	LightKing
-	LightRookL
-	LightRookR
-	LightKnightL
-	LightKnightR
-	LightBishopL
-	LightBishopR
-	LightPawn1
-	LightPawn2
-	LightPawn3
-	LightPawn4
-	LightPawn5
-	LightPawn6
-	LightPawn7
-	LightPawn8
-)
-
 var (
 	InitialBoardSetup = [64]int{
 		DR, DKn, DB, DQ, DK, DB, DKn, DR,

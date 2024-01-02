@@ -14,22 +14,6 @@ import (
 	_ "image/png"
 )
 
-const (
-	E = iota
-	DR
-	DKn
-	DB
-	DQ
-	DK
-	DP
-	LR
-	LKn
-	LB
-	LQ
-	LK
-	LP
-)
-
 var (
 	Black = color.Gray16{0x5500}
 	White = color.Gray16{0xffff}
@@ -99,6 +83,8 @@ func (b *Board) loadPieceImages() error {
 	for i := 0; i < 2; i++ {
 		for j := 0; j < 6; j++ {
 			area := image.Rect(sz*j, sz*i, sz*(j+1), sz*(i+1))
+			// The index represents the position of the piece in the image.
+			// The index is refected on the constants *Image.
 			b.PieceImages[i*6+j] = tilesImage.SubImage(area).(*ebiten.Image)
 		}
 	}
@@ -115,7 +101,7 @@ func (b *Board) Initialize(setup [64]int) error {
 
 		// fmt.Printf("cell:(%d,%d) id:%d\n", cellX, cellY, cellID)
 
-		if cellID > 0 {
+		if cellID != E {
 			piece = NewPiece(cellID, b.PieceImages[PieceImageIndex[cellID]])
 			b.Pieces = append(b.Pieces, piece)
 		}
