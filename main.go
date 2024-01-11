@@ -4,25 +4,25 @@ import (
 	"github.com/hajimehoshi/ebiten/v2"
 )
 
-type Screen struct {
-	Width  int
-	Height int
-	Image  *ebiten.Image
-}
-
 type Game struct {
-	Screen   *Screen
-	Renderer *Renderer
-	Board    *Board
+	Scene
 }
 
-func (g *Game) Update() error {
-	return nil
+func NewGame() (*Game, error) {
+	game := &Game{}
+
+	board, err := NewBoard()
+	if err != nil {
+		return nil, err
+	}
+
+	game.Register(board)
+
+	return game, nil
 }
 
 func (g *Game) Draw(screen *ebiten.Image) {
-	g.Screen.Image = screen
-	g.Renderer.Render(g.Screen)
+	g.Scene.Draw(screen, ebiten.DrawImageOptions{})
 }
 
 func (g *Game) Layout(outsideWidth, outsideHeight int) (int, int) {
@@ -30,27 +30,14 @@ func (g *Game) Layout(outsideWidth, outsideHeight int) (int, int) {
 }
 
 func main() {
-	screen := &Screen{
-		Width:  800,
-		Height: 600,
-	}
-
-	renderer := NewRenderer()
-
-	board, err := NewBoard()
+	game, err := NewGame()
 	Fatal(err)
 
-	renderer.Register(board)
-
-	ebiten.SetWindowSize(screen.Width, screen.Height)
+	ebiten.SetWindowSize(800, 600)
 	ebiten.SetWindowTitle("Chess")
 	// ebiten.SetWindowPosition(1400, 800)
 	err = ebiten.RunGameWithOptions(
-		&Game{
-			Screen:   screen,
-			Renderer: renderer,
-			Board:    board,
-		},
+		game,
 		&ebiten.RunGameOptions{
 			InitUnfocused: true,
 		},
