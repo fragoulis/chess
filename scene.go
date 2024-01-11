@@ -20,13 +20,13 @@ type Scene struct {
 	Components []interface{}
 
 	// Do not draw
-	Hidden bool
+	// Hidden bool
 
 	// Do not update
 	Disabled bool
 
 	// Drawing offset
-	Offset Point
+	// Offset Point
 
 	// Unique ID for each scene component
 	ID string
@@ -53,9 +53,9 @@ func (s *Scene) Update() error {
 }
 
 func (s *Scene) Draw(screen *ebiten.Image, opts ebiten.DrawImageOptions) {
-	if s.Hidden {
-		return
-	}
+	// if s.Hidden {
+	// 	return
+	// }
 
 	// Copy opts
 	// newOpts := opts

@@ -70,9 +70,10 @@ var (
 type Board struct {
 	Scene
 
-	Image  *ebiten.Image
-	Cells  [64]*BoardCell
-	Pieces [12]*Piece
+	Image       *ebiten.Image
+	Cells       [64]*BoardCell
+	PieceImages [12]*ebiten.Image
+	Pieces      []*Piece
 
 	// The piece that is currently being dragged.
 	Selected *Piece
@@ -131,19 +132,12 @@ func (b *Board) loadPieceSet() error {
 		return err
 	}
 
-	for i := range b.Pieces {
-		img, err := pieceSet.LoadPieceImage(0)
+	for i := range b.PieceImages {
+		img, err := pieceSet.LoadPieceImage(i)
 		if err != nil {
 			return err
 		}
-
-		id := PieceNameByIndex[i]
-		piece := NewPiece(id, img)
-		b.Pieces[i] = piece
-
-		// Do not register pieces with the board but with
-		// the individual cells instead.
-		// b.Register(piece)
+		b.PieceImages[i] = img
 	}
 
 	return nil
@@ -154,8 +148,13 @@ func (b *Board) placePiecesOnBoard() {
 	b.placePiece("LightRook", 1)
 }
 
-func (b *Board) placePiece(id string, cellIndex int) {
-	piece := b.Pieces[PieceIndexByName[id]]
+func (b *Board) placePiece(pieceImageName string, cellIndex int) {
+	// Get piece image by image id
+	pieceImage := b.PieceImages[PieceIndexByName[pieceImageName]]
+
+	piece := NewPiece(pieceImageName, pieceImage)
+	b.Pieces = append(b.Pieces, piece)
+
 	cell := b.Cells[cellIndex]
 	cell.Piece = piece
 	piece.Cell = cell
@@ -176,7 +175,7 @@ func (b *Board) Draw(screen *ebiten.Image, opts ebiten.DrawImageOptions) {
 
 	// Move drawing cursor within the board
 	// to draw the cells and pieces.
-	opts.GeoM.Translate(50, 50)
+	opts.GeoM.Translate(45, 45)
 
 	b.Scene.Draw(screen, opts)
 }

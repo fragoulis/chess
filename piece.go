@@ -4,22 +4,6 @@ import (
 	"github.com/hajimehoshi/ebiten/v2"
 )
 
-// const (
-// 	E = iota
-// 	DR
-// 	DKn
-// 	DB
-// 	DQ
-// 	DK
-// 	DP
-// 	LR
-// 	LKn
-// 	LB
-// 	LQ
-// 	LK
-// 	LP
-// )
-
 type Piece struct {
 	Scene
 
@@ -32,7 +16,7 @@ type Piece struct {
 	// Whether the piece is currently selected
 	// Dragged bool
 
-	// Bbox    image.Rectangle
+	Hidden bool
 }
 
 func NewPiece(id string, img *ebiten.Image) *Piece {
@@ -44,42 +28,23 @@ func NewPiece(id string, img *ebiten.Image) *Piece {
 	}
 }
 
-// func (p *Piece) PosX() int {
-// 	return p.Cell.PosX
-// }
+func (p *Piece) Draw(screen *ebiten.Image, opts ebiten.DrawImageOptions) {
+	if p.Hidden {
+		return
+	}
 
-// func (p *Piece) PosY() int {
-// 	return p.Cell.PosY
-// }
+	// x := offsetDrawX + (tileSize * p.PosX())
+	// y := tileSize * p.PosY()
+	// if p.Dragged {
+	// 	mx, my := ebiten.CursorPosition()
+	// 	x = mx - tileSize/2
+	// 	y = my - tileSize/2
+	// }
 
-// func (p *Piece) Draw(screen *ebiten.Image, opts ebiten.DrawImageOptions) {
-// 	if p.Hidden {
-// 		return
-// 	}
-
-// 	// x := offsetDrawX + (tileSize * p.PosX())
-// 	// y := tileSize * p.PosY()
-
-// 	// p.Bbox = image.Rect(x, y, x+tileSize, y+tileSize)
-
-// 	// if p.Dragged {
-// 	// 	mx, my := ebiten.CursorPosition()
-// 	// 	x = mx - tileSize/2
-// 	// 	y = my - tileSize/2
-// 	// }
-
-// 	originalWidth := float64(PieceImageWidth)
-// 	originalHeight := float64(PieceImageHeight)
-// 	targetWidth := float64(60)
-// 	targetHeight := float64(60)
-
-// 	op := &ebiten.DrawImageOptions{}
-// 	op.GeoM.Translate(400, 400)
-// 	op.GeoM.Scale(targetWidth/originalWidth, targetHeight/originalHeight)
-// 	screen.DrawImage(p.Image, op)
-
-// 	p.Scene.Draw(screen, opts)
-// }
+	// op.GeoM.Translate(400, 400)
+	// op.GeoM.Scale(targetWidth/originalWidth, targetHeight/originalHeight)
+	screen.DrawImage(p.Image, &opts)
+}
 
 // func (p *Piece) MoveToCell(cell *BoardCell) {
 // 	// Empty currently occupied cell

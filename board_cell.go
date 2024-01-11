@@ -28,19 +28,21 @@ type BoardCell struct {
 
 	// The cell dimentions
 	Size int
+
+	Hidden bool
 }
 
 func NewBoardCell(id int, row, column int, size int) *BoardCell {
 	return &BoardCell{
 		Scene: Scene{
-			ID:     fmt.Sprintf("cell_%d", id),
-			Hidden: true,
+			ID: fmt.Sprintf("cell_%d", id),
 		},
 		Row:    row,
 		Column: column,
 		Image:  ebiten.NewImage(size, size),
 		Color:  color.RGBA{0xbb, 0xad, 0xa0, 0xff},
 		Size:   size,
+		Hidden: true,
 	}
 }
 
