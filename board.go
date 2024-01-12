@@ -144,8 +144,39 @@ func (b *Board) loadPieceSet() error {
 }
 
 func (b *Board) placePiecesOnBoard() {
-	b.placePiece("DarkRook", 0)
-	b.placePiece("LightRook", 1)
+	b.placePiece("DarkRook", 0+0*8)
+	b.placePiece("DarkKnight", 1+0*8)
+	b.placePiece("DarkBishop", 2+0*8)
+	b.placePiece("DarkQueen", 3+0*8)
+	b.placePiece("DarkKing", 4+0*8)
+	b.placePiece("DarkBishop", 5+0*8)
+	b.placePiece("DarkKnight", 6+0*8)
+	b.placePiece("DarkRook", 7+0*8)
+	b.placePiece("DarkPawn", 0+1*8)
+	b.placePiece("DarkPawn", 1+1*8)
+	b.placePiece("DarkPawn", 2+1*8)
+	b.placePiece("DarkPawn", 3+1*8)
+	b.placePiece("DarkPawn", 4+1*8)
+	b.placePiece("DarkPawn", 5+1*8)
+	b.placePiece("DarkPawn", 6+1*8)
+	b.placePiece("DarkPawn", 7+1*8)
+
+	b.placePiece("LightRook", 0+7*8)
+	b.placePiece("LightKnight", 1+7*8)
+	b.placePiece("LightBishop", 2+7*8)
+	b.placePiece("LightQueen", 3+7*8)
+	b.placePiece("LightKing", 4+7*8)
+	b.placePiece("LightBishop", 5+7*8)
+	b.placePiece("LightKnight", 6+7*8)
+	b.placePiece("LightRook", 7+7*8)
+	b.placePiece("LightPawn", 0+6*8)
+	b.placePiece("LightPawn", 1+6*8)
+	b.placePiece("LightPawn", 2+6*8)
+	b.placePiece("LightPawn", 3+6*8)
+	b.placePiece("LightPawn", 4+6*8)
+	b.placePiece("LightPawn", 5+6*8)
+	b.placePiece("LightPawn", 6+6*8)
+	b.placePiece("LightPawn", 7+6*8)
 }
 
 func (b *Board) placePiece(pieceImageName string, cellIndex int) {
