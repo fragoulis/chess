@@ -193,15 +193,9 @@ func (b *Board) placePiece(pieceImageName string, cellIndex int) {
 }
 
 func (b *Board) Draw(screen *ebiten.Image, opts ebiten.DrawImageOptions) {
-	// originalWidth := float64(b.Image.Bounds().Dx())
-	// originalHeight := float64(b.Image.Bounds().Dy())
-	// targetWidth := float64(screen.Bounds().Dx()) - padding
-	// targetHeight := float64(screen.Bounds().Dy())
 	padding := 0.5 * (float64(screen.Bounds().Dx()) - float64(b.Image.Bounds().Dx()))
 
-	// opts := &ebiten.DrawImageOptions{}
 	opts.GeoM.Translate(padding, 0)
-	// opts.GeoM.Scale(targetWidth/originalWidth, targetHeight/originalHeight)
 	screen.DrawImage(b.Image, &opts)
 
 	// Move drawing cursor within the board
