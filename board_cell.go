@@ -30,6 +30,10 @@ type BoardCell struct {
 	Size int
 
 	Hidden bool
+
+	opts ebiten.DrawImageOptions
+
+	Board *Board
 }
 
 func NewBoardCell(id int, row, column int, size int) *BoardCell {
@@ -52,10 +56,46 @@ func (c *BoardCell) Draw(screen *ebiten.Image, opts ebiten.DrawImageOptions) {
 		float64((c.Size+14)*c.Row),
 	)
 
+	// Save the options in order for us to use them later and
+	// translate the image position back to screenspace.
+	c.opts = opts
+
 	if !c.Hidden {
 		c.Image.Fill(c.Color)
 		screen.DrawImage(c.Image, &opts)
 	}
 
 	c.Scene.Draw(screen, opts)
+}
+
+func (c *BoardCell) Update() error {
+	if c.Piece != nil && c.Board.Selected == nil && ebiten.IsMouseButtonPressed(ebiten.MouseButtonLeft) {
+		// Grab the cursor absolute position.
+		mx, my := ebiten.CursorPosition()
+		point := image.Pt(mx, my)
+
+		// Translate the cell position to screenspace (absolute).
+		x0, y0 := c.opts.GeoM.Apply(
+			float64(c.Image.Bounds().Min.X),
+			float64(c.Image.Bounds().Min.Y),
+		)
+		x1, y1 := c.opts.GeoM.Apply(
+			float64(c.Image.Bounds().Max.X),
+			float64(c.Image.Bounds().Max.X),
+		)
+		bbox := image.Rect(int(x0), int(y0), int(x1), int(y1))
+
+		if point.In(bbox) {
+			c.SetDrawOrder(99)
+			c.Piece.Dragged = true
+			c.Board.Selected = c.Piece
+			fmt.Printf("Clicked cell %s => %s\n", c.ID, point)
+		}
+	} else if c.Piece != nil && c.Piece.Dragged && inpututil.IsMouseButtonJustReleased(ebiten.MouseButtonLeft) {
+		c.SetDrawOrder(0)
+		c.Piece.Dragged = false
+		c.Board.Selected = nil
+	}
+
+	return c.Scene.Update()
 }

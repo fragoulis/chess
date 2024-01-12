@@ -109,6 +109,7 @@ func (b *Board) initializeCells() {
 		column := i % 8
 
 		cell := NewBoardCell(i, row, column, 50)
+		cell.Board = b
 		b.Register(cell)
 		b.Cells[i] = cell
 	}

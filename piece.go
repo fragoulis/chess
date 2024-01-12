@@ -14,9 +14,11 @@ type Piece struct {
 	Image *ebiten.Image
 
 	// Whether the piece is currently selected
-	// Dragged bool
+	Dragged bool
 
 	Hidden bool
+
+	opts ebiten.DrawImageOptions
 }
 
 func NewPiece(id string, img *ebiten.Image) *Piece {
@@ -33,16 +35,25 @@ func (p *Piece) Draw(screen *ebiten.Image, opts ebiten.DrawImageOptions) {
 		return
 	}
 
-	// x := offsetDrawX + (tileSize * p.PosX())
-	// y := tileSize * p.PosY()
-	// if p.Dragged {
-	// 	mx, my := ebiten.CursorPosition()
-	// 	x = mx - tileSize/2
-	// 	y = my - tileSize/2
-	// }
+	if p.Dragged {
+		// Grab the cursor absolute position.
+		mx, my := ebiten.CursorPosition()
+		// point := image.Pt(mx, my)
 
-	// op.GeoM.Translate(400, 400)
-	// op.GeoM.Scale(targetWidth/originalWidth, targetHeight/originalHeight)
+		x := float64(mx) - float64(p.Cell.Size)*0.5
+		y := float64(my) - float64(p.Cell.Size)*0.5
+
+		op := &ebiten.DrawImageOptions{}
+		op.GeoM.Translate(x, y)
+		screen.DrawImage(p.Image, op)
+
+		return
+	}
+
+	// Save the options in order for us to use them later and
+	// translate the image position back to screenspace.
+	p.opts = opts
+
 	screen.DrawImage(p.Image, &opts)
 }
 
